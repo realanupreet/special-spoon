@@ -9,6 +9,14 @@ const fetchUsers = async () => {
   return data;
 };
 
+function generateRandomGradient() {
+  const colors = [];
+  for (let i = 0; i < 2; i++) {
+    colors.push(`rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, 0.1)`);
+  }
+  return colors.join(", ");
+}
+
 function Demo2() {
 
   const { data: users, isLoading, isError, error } = useQuery({
@@ -26,37 +34,43 @@ function Demo2() {
 
   return (
     <>
-      <div className="inter-font">
-        <div className="navbar bg-base-200 ">
+      <div className="inter-font bg-red-500/10">
+        <div className="navbar bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 ">
           <div className="container">
             <div className="navbar-start">
-              <div className="dropdown">
-                <div tabIndex={ 0 } role="button" className="btn btn-ghost btn-circle">
-                  <HiOutlineMenuAlt2 size={ '1.8em' } />
+              <div className="drawer">
+                <input id="my-drawer-main" type="checkbox" className="drawer-toggle" />
+                <div className="drawer-content">
+                  {/* Page content here */ }
+                  <label htmlFor="my-drawer-main" className="btn  drawer-button"><HiOutlineMenuAlt2 size={ '1.8em' } /></label>
                 </div>
-                <ul className="menu bg-base-200 dropdown-content rounded-box w-56">
-                  <li><a>Dashboard</a></li>
-                  <li>
-                    <details open>
-                      <summary>Courses</summary>
-                      <ul>
-                        <li><a>Mathematics</a></li>
-                        <li><a>Science</a></li>
-                      </ul>
-                    </details>
-                  </li>
-                  <li><a>Report</a></li>
-                </ul>
+                <div className="drawer-side">
+                  <label htmlFor="my-drawer-main" aria-label="close sidebar" className="drawer-overlay"></label>
+                  <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+                    {/* Sidebar content here */ }
+                    <li><a>Dashboard</a></li>
+                    <li>
+                      <details open>
+                        <summary>Courses</summary>
+                        <ul>
+                          <li><a>Mathematics</a></li>
+                          <li><a>Science</a></li>
+                        </ul>
+                      </details>
+                    </li>
+                    <li><a>Dashboard</a></li>
+                  </ul>
+                </div>
               </div>
             </div>
             <div className="navbar-center">
-              <a className="btn btn-ghost text-xl">Student App</a>
+              <a className="btn btn-ghost text-xl bg-base-100 hover:bg-base-200">Student App</a>
             </div>
             <div className="navbar-end">
             </div>
           </div>
         </div>
-        <div className="bg-base-300">
+        <div className="bg-base-100">
           <div className="container">
             <div className="btn btn-ghost hover:bg-transparent hover:scale-105 ">About</div> |
             <div className="btn btn-ghost hover:bg-transparent hover:scale-105">Our Mission</div> |
@@ -92,7 +106,10 @@ const ProfileImage = ({ seedVal, size = 24 }) => {
 const GridItem = ({ user }) => {
   return (
     <>
-      <div className="flex bg-gray-300  w-full rounded-lg p-3  gap-3 justify-between cursor-pointer shadown   transition-all hover:shadow-lg" onClick={ () => document.getElementById(user.id).showModal() }>
+      <div
+        className="flex  w-full rounded-lg p-3  gap-3 justify-between cursor-pointer shadown   transition-all hover:shadow-lg" onClick={ () => document.getElementById(user.id).showModal() }
+        style={ { background: `linear-gradient(to right, ${generateRandomGradient()})` } }
+      >
         <div className="flex gap-3">
           <ProfileImage seedVal={ user.name } />
           <div className="details">
@@ -100,24 +117,20 @@ const GridItem = ({ user }) => {
             <p className="mt-0.5 text-gray-700">GPA: { user.gpa }</p>
           </div>
         </div>
-        <div className="dropdown " onClick={ (event) => event.stopPropagation() }>
-          <div tabIndex={ 0 } role="button" className="btn btn-sm z-[-1000]"><MdOutlineMenuOpen size={ '1.3em' } /></div>
-          <ul tabIndex={ 0 } className="dropdown-content menu bg-base-100 rounded-box z-[1000] w-52 p-2 shadow ">
-            <li><a>Edit</a></li>
-            <li><a>Flag</a></li>
-            <li className="z-[1000]"><a>Delete</a></li>
-          </ul>
-        </div>
       </div>
       <dialog id={ user.id } className="modal ">
-        <div className="modal-box bg-gray-300 ">
+        <div className="modal-box bg-gray-100 " >
           <form method="dialog">
-            {/* if there is a button in form, it will close the modal */ }
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 text-black">✕</button>
           </form>
           <div className="">
             <div className="flex gap-3">
-              <ProfileImage seedVal={ user.name } />
+              <div className="flex flex-col gap-2">
+                <ProfileImage seedVal={ user.name } />
+                <button className="btn btn-sm">Edit</button>
+                <button className="btn btn-sm">Flag</button>
+                <button className="btn btn-sm">Delete</button>
+              </div>
               <div className="details font-semibold">
                 <p className=""><span className="text-gray-800 font-normal">Name: </span> { user.name }</p>
                 <p className=""><span className="text-gray-800 font-normal">GPA:</span> { user.gpa }</p>

@@ -9,7 +9,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import Demo1 from './pages/Demo1';
 import Demo2 from './pages/Demo2';
-import Demo3 from './pages/Demo3';
 import NavBar from './components/NavBar';
 
 const queryClient = new QueryClient();
@@ -22,7 +21,6 @@ function App() {
         <Routes>
           <Route path="/" element={ <Demo1 /> } />
           <Route exact path="/2" element={ <Demo2 /> } />
-          <Route exact path="/3" element={ <Demo3 /> } />
         </Routes>
       </Router>
     </QueryClientProvider>
