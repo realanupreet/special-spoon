@@ -33,14 +33,6 @@ function Demo1() {
               <div tabIndex={ 0 } role="button" className="btn btn-ghost btn-circle">
                 <HiOutlineMenuAlt2 size={ '1.8em' } />
               </div>
-              {/* <ul
-              tabIndex={ 0 }
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-              <li><a>Homepage</a></li>
-              <li><a>Portfolio</a></li>
-              <li><a>About</a></li>
-            </ul> */}
-              {/* my stuff */ }
               <ul className="menu bg-base-200 dropdown-content rounded-box w-56">
                 <li><a>Dashboard</a></li>
                 <li>
@@ -54,7 +46,6 @@ function Demo1() {
                 </li>
                 <li><a>Report</a></li>
               </ul>
-              {/* end stuff */ }
             </div>
           </div>
           <div className="navbar-center">
