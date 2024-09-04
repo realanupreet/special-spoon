@@ -6,6 +6,9 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    daisyui: {
+      themes: ['light'], // or ['cupcake'] for a light theme
+    },
     extend: {},
     container: {
       center: true,
