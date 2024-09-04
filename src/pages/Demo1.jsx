@@ -1,6 +1,28 @@
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
 import { MdOutlineMenuOpen } from "react-icons/md";
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import { useState } from "react";
+
+const fetchUsers = async () => {
+  const { data } = await axios.get('https://freetestapi.com/api/v1/students');
+  return data;
+};
+
 function Demo1() {
+
+  const { data: users, isLoading, isError, error } = useQuery({
+    queryKey: ['users'],
+    queryFn: fetchUsers,
+  });
+
+  if (isLoading) {
+    return <div className="text-center">Loading users...</div>;
+  }
+
+  if (isError) {
+    return <div className="text-center text-red-500">Error: { error.message }</div>;
+  }
 
   return (
     <>
@@ -20,17 +42,17 @@ function Demo1() {
             </ul> */}
               {/* my stuff */ }
               <ul className="menu bg-base-200 dropdown-content rounded-box w-56">
-                <li><a>Item 1</a></li>
+                <li><a>Dashboard</a></li>
                 <li>
                   <details open>
-                    <summary>Parent</summary>
+                    <summary>Courses</summary>
                     <ul>
-                      <li><a>Submenu 1</a></li>
-                      <li><a>Submenu 2</a></li>
+                      <li><a>Mathematics</a></li>
+                      <li><a>Science</a></li>
                     </ul>
                   </details>
                 </li>
-                <li><a>Item 3</a></li>
+                <li><a>Report</a></li>
               </ul>
               {/* end stuff */ }
             </div>
@@ -49,14 +71,10 @@ function Demo1() {
           <div className="btn btn-ghost hover:bg-transparent hover:scale-105">Contact Us</div>
         </div>
       </div>
-      <div className="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 container p-4 gap-4 break-all ">
-        <GridItem />
-        <GridItem />
-        <GridItem />
-        <GridItem />
-        <GridItem />
-        <GridItem />
-        <GridItem />
+      <div className="overflow-hidden grid xs:grid-cols-1 sm:grid-cols-2  lg:grid-cols-4 xl:grid-cols-5 container p-4 gap-4 break-all ">
+        { users.map(user => (
+          <GridItem key={ user.id } user={ user } />
+        )) }
       </div>
     </>
   );
@@ -76,24 +94,53 @@ const ProfileImage = ({ seedVal, size = 28 }) => {
     </div>
   )
 }
-const GridItem = () => {
+const GridItem = ({ user }) => {
   return (
     <>
-      <div className="flex bg-gray-300 sm:w-fit md:w-full rounded-lg p-3  gap-3 justify-between">
-        <ProfileImage seedVal="adsn" />
-        <div className="details">
-          <p className="font-semibold">Name</p>
-          <p className="text-gray-800">GPA: 4.5</p>
+      <div className="flex bg-gray-300  w-full rounded-lg p-3  gap-3 justify-between cursor-pointer shadown   transition-all hover:shadow-lg" onClick={ () => document.getElementById(user.id).showModal() }>
+        <div className="flex gap-3">
+          <ProfileImage seedVal={ user.name } />
+          <div className="details">
+            <p className="font-semibold">{ user.name }</p>
+            <p className="text-gray-800">GPA: { user.gpa }</p>
+          </div>
         </div>
-        <details className="dropdown">
-          <summary className="btn  btn-sm "><MdOutlineMenuOpen size={ '1.3em' } /></summary>
-          <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+        <div className="dropdown " onClick={ (event) => event.stopPropagation() }>
+          <div tabIndex={ 0 } role="button" className="btn btn-sm z-[-1000]"><MdOutlineMenuOpen size={ '1.3em' } /></div>
+          <ul tabIndex={ 0 } className="dropdown-content menu bg-base-100 rounded-box z-[1000] w-52 p-2 shadow ">
             <li><a>Edit</a></li>
             <li><a>Flag</a></li>
-            <li><a>Delete</a></li>
+            <li className="z-[1000]"><a>Delete</a></li>
           </ul>
-        </details>
+        </div>
       </div>
+      <dialog id={ user.id } className="modal ">
+        <div className="modal-box bg-gray-300 ">
+          <form method="dialog">
+            {/* if there is a button in form, it will close the modal */ }
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 text-black">✕</button>
+          </form>
+          <div className="">
+            <div className="flex gap-3">
+              <ProfileImage seedVal={ user.name } />
+              <div className="details font-semibold">
+                <p className=""><span className="text-gray-800 font-normal">Name: </span> { user.name }</p>
+                <p className=""><span className="text-gray-800 font-normal">GPA:</span> { user.gpa }</p>
+
+                <p className="">
+                  <span className="text-gray-800 font-normal">Email: </span><a href={ `mailto:${user.email}` }> { user.email }</a>
+                </p>
+                <p className="mt-1"><span className="text-gray-800 font-normal">Studies:</span> { user.courses.map((course, index) => {
+                  return <div key={ index } className="inline-flex text-gray-400 font-normal break-normal bg-gray-800 rounded-full px-2 py-1 m-1 whitespace-nowrap"> { course } </div>
+                }) }</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <form method="dialog" className="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog >
     </>
   )
 }
