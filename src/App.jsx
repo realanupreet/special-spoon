@@ -3,21 +3,25 @@ import {
   Route,
   Routes,
   Link,
+  NavLink,
 } from 'react-router-dom';
 
-import Home from './pages/Home';
-import About from './pages/About';
+import Demo1 from './pages/Demo1';
+import Demo2 from './pages/Demo2';
+import Demo3 from './pages/Demo3';
 
 function App() {
   return (
     <Router>
-      <nav>
-        <Link to="/">Home</Link>
-        <Link to="/about">About</Link>
+      <nav className='bg-black/90 text-gray-400 flex justify-center gap-5 uppercase p-3 transition-all '>
+        <NavLink to="/">Demo 1</NavLink>
+        <NavLink to="/2">Demo 2</NavLink>
+        <NavLink to="/3">Demo 3</NavLink>
       </nav>
       <Routes>
-        <Route exact path="/" element={ <Home /> } />
-        <Route path="/about" element={ <About /> } />
+        <Route path="/" element={ <Demo1 /> } />
+        <Route exact path="/2" element={ <Demo2 /> } />
+        <Route exact path="/3" element={ <Demo3 /> } />
       </Routes>
     </Router>
   );
