@@ -3,23 +3,27 @@ import {
   Route,
   Routes,
   Link,
+  NavLink,
 } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-import Home from './pages/Home';
-import About from './pages/About';
+import Demo1 from './pages/Demo1';
+import Demo2 from './pages/Demo2';
+import NavBar from './components/NavBar';
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <Router>
-      <nav>
-        <Link to="/">Home</Link>
-        <Link to="/about">About</Link>
-      </nav>
-      <Routes>
-        <Route exact path="/" element={ <Home /> } />
-        <Route path="/about" element={ <About /> } />
-      </Routes>
-    </Router>
+    <QueryClientProvider client={ queryClient }>
+      <Router>
+        <NavBar />
+        <Routes>
+          <Route path="/" element={ <Demo1 /> } />
+          <Route exact path="/2" element={ <Demo2 /> } />
+        </Routes>
+      </Router>
+    </QueryClientProvider>
   );
 }
 
