@@ -26,46 +26,48 @@ function Demo1() {
 
   return (
     <>
-      <div className="navbar bg-base-200 ">
-        <div className="container">
-          <div className="navbar-start">
-            <div className="dropdown">
-              <div tabIndex={ 0 } role="button" className="btn btn-ghost btn-circle">
-                <HiOutlineMenuAlt2 size={ '1.8em' } />
+      <div className="default-font">
+        <div className="navbar bg-base-200 ">
+          <div className="container">
+            <div className="navbar-start">
+              <div className="dropdown">
+                <div tabIndex={ 0 } role="button" className="btn btn-ghost btn-circle">
+                  <HiOutlineMenuAlt2 size={ '1.8em' } />
+                </div>
+                <ul className="menu bg-base-200 dropdown-content rounded-box w-56">
+                  <li><a>Dashboard</a></li>
+                  <li>
+                    <details open>
+                      <summary>Courses</summary>
+                      <ul>
+                        <li><a>Mathematics</a></li>
+                        <li><a>Science</a></li>
+                      </ul>
+                    </details>
+                  </li>
+                  <li><a>Report</a></li>
+                </ul>
               </div>
-              <ul className="menu bg-base-200 dropdown-content rounded-box w-56">
-                <li><a>Dashboard</a></li>
-                <li>
-                  <details open>
-                    <summary>Courses</summary>
-                    <ul>
-                      <li><a>Mathematics</a></li>
-                      <li><a>Science</a></li>
-                    </ul>
-                  </details>
-                </li>
-                <li><a>Report</a></li>
-              </ul>
+            </div>
+            <div className="navbar-center">
+              <a className="btn btn-ghost text-xl">Student App</a>
+            </div>
+            <div className="navbar-end">
             </div>
           </div>
-          <div className="navbar-center">
-            <a className="btn btn-ghost text-xl">Student App</a>
-          </div>
-          <div className="navbar-end">
+        </div>
+        <div className="bg-base-300">
+          <div className="container">
+            <div className="btn btn-ghost hover:bg-transparent hover:scale-105 ">About</div> |
+            <div className="btn btn-ghost hover:bg-transparent hover:scale-105">Our Mission</div> |
+            <div className="btn btn-ghost hover:bg-transparent hover:scale-105">Contact Us</div>
           </div>
         </div>
-      </div>
-      <div className="bg-base-300">
-        <div className="container">
-          <div className="btn btn-ghost hover:bg-transparent hover:scale-105 ">About</div> |
-          <div className="btn btn-ghost hover:bg-transparent hover:scale-105">Our Mission</div> |
-          <div className="btn btn-ghost hover:bg-transparent hover:scale-105">Contact Us</div>
+        <div className="overflow-hidden grid xs:grid-cols-1 sm:grid-cols-2  lg:grid-cols-4 xl:grid-cols-5 container p-4 gap-4 break-all ">
+          { users.map(user => (
+            <GridItem key={ user.id } user={ user } />
+          )) }
         </div>
-      </div>
-      <div className="overflow-hidden grid xs:grid-cols-1 sm:grid-cols-2  lg:grid-cols-4 xl:grid-cols-5 container p-4 gap-4 break-all ">
-        { users.map(user => (
-          <GridItem key={ user.id } user={ user } />
-        )) }
       </div>
     </>
   );
